@@ -1,0 +1,81 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./infrastructure/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.api
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/smart-factory
+      - MQTT_HOST=mosquitto
+      - AI_SERVICE_URL=http://ai-service:8000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      ai-service:
+        condition: service_started
+
+  web:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.web
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - VITE_API_PROXY_TARGET=http://api:4000
+      - VITE_SIM_PROXY_TARGET=http://simulator:5000
+      - VITE_WS_PROXY_TARGET=ws://api:4000
+    depends_on:
+      - api
+
+  ai-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.ai
+    ports:
+      - "8000:8000"
+
+  simulator:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.simulator
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - MQTT_HOST=mosquitto
+    depends_on:
+      - mosquitto
+      - api
+
+volumes:
+  mongodb_data:
+  mosquitto_data:

@@ -1,0 +1,13 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+COPY tsconfig.base.json ./
+COPY packages ./packages
+COPY simulator ./simulator
+RUN npm install
+RUN npm run build --workspace=packages/shared-types
+RUN npm run build --workspace=packages/mqtt-contracts
+RUN npm run build --workspace=packages/validation
+RUN npm run build --workspace=simulator
+EXPOSE 5000
+CMD ["npm", "run", "start", "--workspace=simulator"]

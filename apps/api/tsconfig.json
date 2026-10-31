@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true
+  },
+  "references": [
+    { "path": "../../packages/shared-types" },
+    { "path": "../../packages/validation" },
+    { "path": "../../packages/mqtt-contracts" }
+  ],
+  "include": ["src/**/*"],
+  "exclude": ["src/__tests__/**/*", "dist", "node_modules"]
+}
