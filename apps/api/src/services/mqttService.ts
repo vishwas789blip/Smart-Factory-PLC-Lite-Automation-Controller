@@ -64,9 +64,19 @@ mqttClient.on('reconnect', () => {
 
 mqttClient.on('message', async (topic, message) => {
   try {
+    // Only process MQTT packets if database is connected
+    if (mongoose.connection.readyState !== 1) return;
+
     const deviceId = extractDeviceIdFromTopic(topic);
     if (!deviceId) return;
-    const data = JSON.parse(message.toString());
+
+    let data: any;
+    try {
+      data = JSON.parse(message.toString());
+    } catch {
+      // Ignore non-JSON packets from public brokers
+      return;
+    }
 
     if (topic.endsWith('/telemetry')) {
       const result = telemetryPayloadSchema.safeParse(data);
