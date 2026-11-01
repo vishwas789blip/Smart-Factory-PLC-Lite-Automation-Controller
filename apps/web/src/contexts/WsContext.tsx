@@ -21,10 +21,22 @@ export const WsProvider = ({ children }: { children: ReactNode }) => {
     const token = getAccessToken();
     if (!token) return;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const envApiUrl = import.meta.env.VITE_API_URL as string | undefined;
-    const derivedWs = envApiUrl ? envApiUrl.replace(/^http/, 'ws') : `${protocol}//${window.location.hostname}:4000`;
-    const baseUrl = (import.meta.env.VITE_WS_URL as string) || derivedWs;
+    let baseUrl = import.meta.env.VITE_WS_URL as string | undefined;
+    if (!baseUrl) {
+      if (import.meta.env.VITE_API_URL) {
+        baseUrl = (import.meta.env.VITE_API_URL as string).replace(/^http/, 'ws');
+      } else if (typeof window !== 'undefined') {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (!isLocalhost) {
+          baseUrl = 'wss://smart-factory-plc-lite-automation.onrender.com';
+        } else {
+          const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+          baseUrl = `${protocol}//${window.location.hostname}:4000`;
+        }
+      } else {
+        baseUrl = 'ws://localhost:4000';
+      }
+    }
     const wsUrl = `${baseUrl.replace(/\/$/, '')}?token=${encodeURIComponent(token)}`;
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;

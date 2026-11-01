@@ -1,9 +1,16 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://smart-factory-plc-lite-automation.onrender.com/api/:path*"
+    },
+    {
+      "source": "/health",
+      "destination": "https://smart-factory-plc-lite-automation.onrender.com/health"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
 }
-

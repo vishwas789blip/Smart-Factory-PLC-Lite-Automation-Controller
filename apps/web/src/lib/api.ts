@@ -1,8 +1,19 @@
 import axios from 'axios';
 
-const apiBase = import.meta.env.VITE_API_URL
-  ? `${(import.meta.env.VITE_API_URL as string).replace(/\/$/, '')}/api`
-  : '/api';
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${(import.meta.env.VITE_API_URL as string).replace(/\/$/, '')}/api`;
+  }
+  if (typeof window !== 'undefined') {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!isLocalhost) {
+      return 'https://smart-factory-plc-lite-automation.onrender.com/api';
+    }
+  }
+  return '/api';
+};
+
+const apiBase = getApiBase();
 
 const api = axios.create({
   baseURL: apiBase,
