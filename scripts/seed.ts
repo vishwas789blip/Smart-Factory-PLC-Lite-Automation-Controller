@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import dns from 'dns';
+
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {}
 import { User } from '../apps/api/src/models/User';
 import { Factory } from '../apps/api/src/models/Factory';
 import { Device } from '../apps/api/src/models/Device';

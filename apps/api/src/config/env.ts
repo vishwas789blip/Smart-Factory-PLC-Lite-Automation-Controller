@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
+import dns from 'dns';
 
 // Attempt to load .env from several likely locations
 const candidatePaths = [
@@ -22,6 +23,13 @@ for (const p of candidatePaths) {
 if (!loadedPath) {
   dotenv.config(); // fallback to default dotenv resolution
 }
+
+// Enable Google/Cloudflare DNS fallback for MongoDB Atlas SRV resolution
+try {
+  if (process.env.MONGODB_URI && process.env.MONGODB_URI.includes('mongodb+srv://')) {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+  }
+} catch {}
 
 export const ENV = {
   PORT: parseInt(process.env.PORT || '4000', 10),
