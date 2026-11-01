@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const apiBase = import.meta.env.VITE_API_URL
+  ? `${(import.meta.env.VITE_API_URL as string).replace(/\/$/, '')}/api`
+  : '/api';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: apiBase,
   timeout: 15000,
 });
 
@@ -47,7 +51,7 @@ api.interceptors.response.use(
       original._retry = true;
       refreshing = true;
       try {
-        const res = await axios.post('/api/auth/refresh', { refreshToken });
+        const res = await axios.post(`${apiBase}/auth/refresh`, { refreshToken });
         const { accessToken: newAt, refreshToken: newRt } = res.data;
         setTokens(newAt, newRt);
         refreshQueue.forEach(cb => cb(newAt));

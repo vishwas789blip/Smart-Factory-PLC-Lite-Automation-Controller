@@ -22,7 +22,9 @@ export const WsProvider = ({ children }: { children: ReactNode }) => {
     if (!token) return;
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const baseUrl = (import.meta.env.VITE_WS_URL as string) || `${protocol}//${window.location.hostname}:4000`;
+    const envApiUrl = import.meta.env.VITE_API_URL as string | undefined;
+    const derivedWs = envApiUrl ? envApiUrl.replace(/^http/, 'ws') : `${protocol}//${window.location.hostname}:4000`;
+    const baseUrl = (import.meta.env.VITE_WS_URL as string) || derivedWs;
     const wsUrl = `${baseUrl.replace(/\/$/, '')}?token=${encodeURIComponent(token)}`;
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
