@@ -18,12 +18,17 @@ const POWER_ALERT_THRESHOLD = ENV.POWER_ALERT_THRESHOLD;
 const TEMP_ALERT_THRESHOLD = ENV.TEMP_ALERT_THRESHOLD;
 const VIBRATION_ALERT_THRESHOLD = ENV.VIBRATION_ALERT_THRESHOLD;
 
-export const mqttClient = mqtt.connect(`mqtt://${MQTT_HOST}:${MQTT_PORT}`, {
-  username: MQTT_USER,
-  password: MQTT_PASSWORD,
+const mqttOptions: mqtt.IClientOptions = {
   clientId: `api_${Math.random().toString(16).slice(2, 8)}`,
   reconnectPeriod: 5000
-});
+};
+
+if (MQTT_USER && MQTT_PASSWORD) {
+  mqttOptions.username = MQTT_USER;
+  mqttOptions.password = MQTT_PASSWORD;
+}
+
+export const mqttClient = mqtt.connect(`mqtt://${MQTT_HOST}:${MQTT_PORT}`, mqttOptions);
 
 export const checkAndCreateAlert = async (type: string, severity: string, deviceId: string, message: string, actuatorId?: string, machineId?: string) => {
   const query: any = { type, deviceId, resolvedAt: { $exists: false } };
