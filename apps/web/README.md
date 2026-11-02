@@ -1,32 +1,18 @@
-# React + TypeScript + Vite
+# Smart Factory PLC-Lite — SCADA Operator Console
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The front-end supervisory control and data acquisition (SCADA) interface for the Smart Factory PLC-Lite ecosystem, built with **React 19**, **Vite**, and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+## Key Capabilities
+- **Real-Time Digital Workstation:** Dark-mode ergonomics designed for 24/7 operator control rooms.
+- **Dynamic Plant Mimic:** Animated SVG schematics visualizing conveyor belts, cooling fans, and safety valves in real time.
+- **Sub-100ms WebSocket Updates:** Instant telemetry visualization (temperature, vibration, current, gas) powered by native WebSocket integration.
+- **Manual Supervisory Overrides:** Low-latency actuator controls with confirmation dialogs and automatic audit logging.
+- **Role-Based Access Control (RBAC):** Distinct workflows for `VIEWER`, `OPERATOR`, `ENGINEER`, and `ADMIN`.
+- **Edge Reverse Proxying:** Configured via `vercel.json` to proxy API requests seamlessly to the Render cloud backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Local Development
+```bash
+npm install
+npm run dev
 ```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Accessible by default at `http://localhost:3000`.

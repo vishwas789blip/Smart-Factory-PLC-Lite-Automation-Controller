@@ -26,6 +26,12 @@ env/
 venv/
 ENV/
 .venv/
+.pytest_cache/
+
+# PlatformIO & Embedded builds
+.pio/
+.pioenvs/
+.piolibdeps/
 
 # Logs & runtime artifacts
 logs/
