@@ -1,0 +1,13 @@
+S.No,Component / Module,Part Number / Model,Quantity,Unit Cost (INR),Total Cost (INR),Supplier
+1,ESP32 DevKit v1 (30-pin NodeMCU),ESP-WROOM-32,1,450,450,Robu.in
+2,Digital Temperature & Humidity Sensor,DHT22 / AM2302,1,180,180,Robu.in
+3,Hall-Effect AC/DC Current Sensor (30A),ACS712-30A,1,160,160,Robu.in
+4,Industrial Vibration / Tilt Sensor,SW-420 Piezo Module,1,90,90,Robu.in
+5,Hazardous Gas & Air Quality Sensor,MQ-135 Gas Module,1,150,150,Robu.in
+6,4-Channel Optocoupled 5V Relay Board,Songle SRD-05VDC-SL-C,1,180,180,Robu.in
+7,"0.96"" Monochrome I2C OLED Display",SSD1306 (128x64 Blue),1,180,180,Robu.in
+8,5V 2.5A Regulated DC Power Adapter,5V-2.5A Micro-USB / Jack,1,250,250,Amazon.in
+9,5V Active Piezo Alarm Buzzer,SFM-27 Continuous,1,20,20,Local Market
+10,"Jumper Wires (M-M, M-F, F-F)",40-pin Ribbon Cable,1,80,80,Robu.in
+11,"Resistor Pack (4.7kΩ, 1kΩ, 2kΩ) & Diodes",1/4W Metal Film,1,30,30,Local Electronics
+12,Half-Size Solderless Breadboard / PCB,MB-102 400 Points,1,70,70,Robu.in
