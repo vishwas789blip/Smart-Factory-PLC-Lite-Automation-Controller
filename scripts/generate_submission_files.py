@@ -697,3 +697,4 @@ if __name__ == "__main__":
     generate_viva_deck()
     generate_srs_docs()
     print("All submission files generated successfully in:", OUT_DIR)
+
